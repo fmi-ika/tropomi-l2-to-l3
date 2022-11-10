@@ -3,9 +3,6 @@ import json
 
 import harp
 import numpy as np
-#import matplotlib.pyplot as plt
-#import cartopy.crs as ccrs
-#from cmcrameri import cm
 
 
 def get_bin_spatial_string(conf):
@@ -48,10 +45,12 @@ def merge_and_regrid(conf, infiles):
     """
     
     bin_spatial_string = get_bin_spatial_string(conf)
-
+    
     operations = ";".join([
         f'{conf["variable"]["harp_var_name"]}_validity>{conf["variable"]["validity_min"]}',
-        f'keep(latitude_bounds,longitude_bounds,datetime_start,datetime_length,{conf["variable"]["harp_var_name"]})',
+        f'keep(latitude_bounds,longitude_bounds,datetime_start,datetime_length,{conf["variable"]["harp_var_name"]},{conf["variable"]["harp_var_name"]}_uncertainty)',
+        f'derive({conf["variable"]["harp_var_name"]} [{conf["variable"]["unit"]}])',
+        f'derive({conf["variable"]["harp_var_name"]}_uncertainty [{conf["variable"]["unit"]}])',
         "derive(datetime_stop {time} [days since 2000-01-01])",
         "derive(datetime_start [days since 2000-01-01])",
         "exclude(datetime_length)",
@@ -61,8 +60,9 @@ def merge_and_regrid(conf, infiles):
     ])
     
     reduce_operations = "squash(time, (latitude, longitude, latitude_bounds, longitude_bounds));bin()"
-    merged = harp.import_product(infiles, operations, reduce_operations=reduce_operations)
-
+    post_operations = "exclude(weight, longitude_bounds, latitude_bounds)"
+    merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
+    
     return merged
     
 
@@ -76,7 +76,7 @@ def main():
     # Merge and re-grid files
     infiles = f'{conf["input"]["path"]}/{conf["input"]["filename"].format(date=options.date)}'
     outfile = f'{conf["output"]["path"]}/{conf["output"]["filename"].format(date=options.date)}'
-    merged = merge_and_regrid(conf, infiles, outfile)
+    merged = merge_and_regrid(conf, infiles)
 
     # Write merged data to l3 output file
     harp.export_product(merged, outfile)    
@@ -87,11 +87,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--var',
                         type = str,
-                        default = 'o3-nrti',
+                        default = 'no2-nrti',
                         help = 'Tropomi variable to regrid and plot. Options: no2-nrti, so2-nrti, co-nrti, o3-nrti')
     parser.add_argument('--date',
                         type = str,
-                        default = '20221013',
+                        default = '20221102',
                         help = 'Date to regrid and plot.')
 
     options = parser.parse_args()

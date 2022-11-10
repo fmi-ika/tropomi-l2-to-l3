@@ -5,6 +5,7 @@
     },
     "variable": {
 	"harp_var_name": "SO2_column_number_density",
+	"unit": "DU",
 	"validity_min": 50,
 	"lat_min": -90,
 	"lat_max": 90,
@@ -16,9 +17,5 @@
     "output": {
 	"path": "/kat/data/tropomi/merged_so2-nrti",
 	"filename": "S5P_NRTI_L3__SO2____{date}.nc"
-    },
-    "plot": {
-	"vmin": 0,
-	"vmax": 0.01	
     }
 }

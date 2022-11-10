@@ -5,20 +5,17 @@
     },
     "variable": {
 	"harp_var_name": "tropospheric_NO2_column_number_density",
+	"unit": "Pmolec/cm2",
 	"validity_min": 75,
 	"lat_min": -90,
 	"lat_max": 90,
-	"lat_step": 0.25,
+	"lat_step": 0.05,
 	"lon_min": -180,
 	"lon_max": 180,
-	"lon_step": 0.25
+	"lon_step": 0.05
     },
     "output": {
 	"path": "/kat/data/tropomi/merged_no2-nrti",
 	"filename": "S5P_NRTI_L3__NO2____{date}.nc"
-    },
-    "plot": {
-	"vmin": 0,
-	"vmax": 0.01	
     }
 }

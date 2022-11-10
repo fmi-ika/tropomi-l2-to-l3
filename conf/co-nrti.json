@@ -5,6 +5,7 @@
     },
     "variable": {
 	"harp_var_name": "CO_column_number_density",
+	"unit": "Pmolec/cm2",
 	"validity_min": 50,
 	"lat_min": -90,
 	"lat_max": 90,
@@ -16,9 +17,5 @@
     "output": {
 	"path": "/kat/data/tropomi/merged_co-nrti",
 	"filename": "S5P_NRTI_L3__CO_____{date}.nc"
-    },
-    "plot": {
-	"vmin": 0,
-	"vmax": 0.01	
     }
 }
