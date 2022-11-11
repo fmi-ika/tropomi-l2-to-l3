@@ -33,9 +33,6 @@ def get_bin_spatial_string(conf):
 def merge_and_regrid(conf, infiles):
     """ Regrid and merge multiple l2 input files into one l3 output file.
 
-    Code is originally from Atmospheric tool box harp tutorial:
-    https://atmospherictoolbox.org/usecases/Usecase_2_S5P_AAI_Siberia_Smoke/
-
     Keyword arguments:
     conf -- config dictionary
     infiles -- input filenames, contains star as a wildcard character
