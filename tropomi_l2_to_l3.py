@@ -3,6 +3,7 @@ import json
 
 import harp
 import numpy as np
+import netCDF4 as nc
 
 
 def get_bin_spatial_string(conf):
@@ -61,7 +62,26 @@ def merge_and_regrid(conf, infiles):
     merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
     
     return merged
+
+
+def add_attribute_to_netcdf_file(netcdf_file):
+    """ Add extra attributes to file using netCDF4 library. Has to
+    be done separately because HARP does not support adding your
+    own attributes.
+
+    Keyword arguments:
+    netcdf_file -- merged output file
+
+    Return:
+    nc_file -- output file with added attributes
+    """
     
+    with nc.Dataset(netcdf_file, 'a', format='NETCDF4') as nc_file:
+        # Add global attribute producer
+        nc_file.producer = "Finnish Meteorological Institute"
+
+    return nc_file
+
 
 def main():
 
@@ -76,7 +96,10 @@ def main():
     merged = merge_and_regrid(conf, infiles)
 
     # Write merged data to l3 output file
-    harp.export_product(merged, outfile)    
+    harp.export_product(merged, outfile)
+
+    # Add extra attributes to file
+    outfile = add_attribute_to_netcdf_file(outfile)
 
     
 if __name__ == '__main__':
