@@ -1,5 +1,7 @@
 import argparse
 import json
+import logging
+import time
 
 import harp
 import numpy as np
@@ -59,7 +61,13 @@ def merge_and_regrid(conf, infiles):
     
     reduce_operations = "squash(time, (latitude, longitude, latitude_bounds, longitude_bounds));bin()"
     post_operations = "exclude(weight, longitude_bounds, latitude_bounds)"
-    merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
+
+    logger.debug(f'Merging files {infiles} into one')
+    try:
+        merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
+    except Exception as e:
+        logger.error(f'Error while reading merging files with HARP')
+        logger.error(e)
     
     return merged
 
@@ -75,11 +83,16 @@ def add_attribute_to_netcdf_file(netcdf_file):
     Return:
     nc_file -- output file with added attributes
     """
-    
-    with nc.Dataset(netcdf_file, 'a', format='NETCDF4') as nc_file:
-        # Add global attribute producer
-        nc_file.producer = "Finnish Meteorological Institute"
 
+    logger.debug(f'Adding extra attributes to file {netcdf_file}')
+    try:
+        with nc.Dataset(netcdf_file, 'a', format='NETCDF4') as nc_file:
+            # Add global attribute producer
+            nc_file.producer = "Finnish Meteorological Institute"
+    except Exception as e:
+        logger.error(f'Error while writing attribute to file {netcdf_file}')
+        logger.error(e)
+            
     return nc_file
 
 
@@ -87,8 +100,13 @@ def main():
 
     # Get config
     config_file = f"conf/{options.var}.json"
-    with open(config_file, "r") as jsonfile:
-        conf = json.load(jsonfile)
+    logger.debug(f'Reading config file {config_file}')
+    try:
+        with open(config_file, "r") as jsonfile:
+            conf = json.load(jsonfile)
+    except Exception as e:
+        logger.error(f'Error while reading the configuration file {config_file}')
+        logger.error(e)
 
     # Merge and re-grid files
     infiles = f'{conf["input"]["path"]}/{conf["input"]["filename"].format(date=options.date)}'
@@ -96,6 +114,7 @@ def main():
     merged = merge_and_regrid(conf, infiles)
 
     # Write merged data to l3 output file
+    logger.debug(f'Writing merged product to file {outfile}')
     harp.export_product(merged, outfile)
 
     # Add extra attributes to file
@@ -113,6 +132,25 @@ if __name__ == '__main__':
                         type = str,
                         default = '20221102',
                         help = 'Date to regrid and plot.')
+    parser.add_argument('--loglevel',
+                        default='info',
+                        help='minimum severity of logged messages,\
+                        options: debug, info, warning, error, critical, default=info')
 
     options = parser.parse_args()
+
+    # Setup logger
+    loglevel_dict={'debug':logging.DEBUG,
+                   'info':logging.INFO,
+                   'warning':logging.WARNING,
+                   'error':logging.ERROR,
+                   'critical':logging.CRITICAL}
+    logger = logging.getLogger("logger")
+    logger.setLevel(loglevel_dict[options.loglevel])
+    formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s | (%(filename)s:%(lineno)d)','%Y-%m-%d %H:%M:%S')
+    logging.Formatter.converter = time.gmtime # use utc                                                      
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
+
     main()
