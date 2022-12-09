@@ -1,9 +1,7 @@
 {
     "input": {
-	"day": {
-	    "path": "/kat/data/tropomi/S3_no2-nrti",
-	    "filename": "S5P_NRTI_L2__NO2____{date}*.nc"
-	}
+	"path": "/kat/data/tropomi/S3_no2",
+	"filename": "S5P_OFFL_L2__NO2____{date}*.nc"
     },
     "variable": {
 	"harp_var_name": "tropospheric_NO2_column_number_density",
@@ -17,9 +15,7 @@
 	"lon_step": 0.05
     },
     "output": {
-	"day": {
-	    "path": "/kat/data/tropomi/merged_no2-nrti",
-	    "filename": "S5P_NRTI_L3_NO2_dailycomposite_{date}.nc"
-	}
+	"path": "/kat/data/tropomi/merged_no2",
+	"filename": "S5P_OFFL_L3__NO2____{date}.nc"
     }
 }
