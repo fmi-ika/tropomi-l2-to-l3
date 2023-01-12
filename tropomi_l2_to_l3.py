@@ -33,43 +33,72 @@ def get_bin_spatial_string(conf):
     bin_spatial_string = f"bin_spatial({lat_edge_length}, {lat_min}, {lat_step}, {lon_edge_length}, {lon_min}, {lon_step})"
 
     return bin_spatial_string
-    
 
-def merge_and_regrid(conf, infiles):
+
+def merge_and_regrid(conf, infiles, timeperiod):
     """ Regrid and merge multiple l2 input files into one l3 output file.
 
     Keyword arguments:
     conf -- config dictionary
     infiles -- input filenames, contains star as a wildcard character
+    timeperiod -- timeperiod to merge, day|month
 
     Return:
     merged -- regridded and merged data
     """
-    
     bin_spatial_string = get_bin_spatial_string(conf)
-    
-    operations = ";".join([
-        f'{conf["variable"]["harp_var_name"]}_validity>{conf["variable"]["validity_min"]}',
-        f'keep(latitude_bounds,longitude_bounds,datetime_start,datetime_length,{conf["variable"]["harp_var_name"]})',
-        f'derive({conf["variable"]["harp_var_name"]} float [{conf["variable"]["unit"]}])',
-        "derive(datetime_stop {time} [days since 2000-01-01])",
-        "derive(datetime_start [days since 2000-01-01])",
-        "exclude(datetime_length)",
-        bin_spatial_string,
-        "derive(latitude float {latitude})",
-        "derive(longitude float {longitude})"
-    ])
-    
-    reduce_operations = "squash(time, (latitude, longitude, latitude_bounds, longitude_bounds));bin()"
-    post_operations = "exclude(weight, longitude_bounds, latitude_bounds)"
 
-    logger.debug(f'Merging files {infiles} into one')
-    try:
-        merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
-    except Exception as e:
-        logger.error(f'Error while reading merging files with HARP')
-        logger.error(e)
+    first_input_file = glob.glob(infiles)[0]
+
+    data = harp.import_product(first_input_file)
     
+    if f'{conf["variable"]["harp_var_name"]}_validity' in data:
+        logger.debug(f'Using {conf["variable"]["harp_var_name"]}_validity in merging files.')
+        operations = ";".join([
+            f'{conf["variable"]["harp_var_name"]}_validity>{conf["variable"]["validity_min"]}',
+            f'keep(latitude_bounds,longitude_bounds,datetime_start,datetime_length,{conf["variable"]["harp_var_name"]})',
+            f'derive({conf["variable"]["harp_var_name"]} float [{conf["variable"]["unit"]}])',
+            "derive(datetime_stop {time} [days since 2000-01-01])",
+            "derive(datetime_start [days since 2000-01-01])",
+            "exclude(datetime_length)",
+            bin_spatial_string,
+            "derive(latitude float {latitude})",
+            "derive(longitude float {longitude})"
+        ])
+        
+        reduce_operations = f'squash(time, (latitude, longitude, latitude_bounds, longitude_bounds));bin()'
+        post_operations = "exclude(weight, longitude_bounds, latitude_bounds)"
+
+        logger.debug(f'Merging files {infiles} into one')
+        try:
+            merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
+        except Exception as e:
+            logger.error(f'Error while merging files with HARP')
+            logger.error(e)
+        
+    elif timeperiod == "month":
+        logger.debug(f'Merging one month of data and using already merged l3 data as input.')
+        """ operations = ";".join([
+            f'keep(latitude, longitude, datetime_start,datetime_stop,{conf["variable"]["harp_var_name"]})',
+            f'derive({conf["variable"]["harp_var_name"]} float [{conf["variable"]["unit"]}])',
+            "derive(datetime_stop {time} [days since 2000-01-01])",
+            "derive(datetime_start [days since 2000-01-01])",
+        ])
+        reduce_operations = "squash(time, (latitude, longitude));bin()"
+        post_operations = "exclude(weight)" """
+        
+        post_operations = "squash(time, (latitude, longitude));bin()"
+
+        logger.debug(f'Merging files {infiles} into one')
+        try:
+            #merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
+            merged = harp.import_product(infiles, post_operations = post_operations)
+        except Exception as e:
+            logger.error(f'Error while merging files with HARP')
+            logger.error(e)
+    else:
+        raise ValueError("Validity parameter not found in input files while trying to merge one day of data. Aborting.")
+        
     return merged
 
 
@@ -91,6 +120,7 @@ def edit_netcdf_file(netcdf_file):
             nc_file.data_provider = "Finnish Meteorological Institute"
             nc_file.data_origin = "Copernicus Sentinel-5P/TROPOMI"
             nc_file.legal_notice = "Contains modified Copernicus Sentinel data processed by Finnish Meteorological Institute."
+            
     except Exception as e:
         logger.error(f'Error while writing attribute to file {netcdf_file}')
         logger.error(e)
@@ -113,7 +143,7 @@ def main():
     # Merge and re-grid files
     infiles = f'{conf["input"][options.timeperiod]["path"]}/{conf["input"][options.timeperiod]["filename"].format(date=options.date)}'
     outfile = f'{conf["output"][options.timeperiod]["path"]}/{conf["output"][options.timeperiod]["filename"].format(date=options.date)}'
-    merged = merge_and_regrid(conf, infiles)
+    merged = merge_and_regrid(conf, infiles, options.timeperiod)
     
     # Write merged data to l3 output file
     logger.debug(f'Writing merged product to file {outfile}')

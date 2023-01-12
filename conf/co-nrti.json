@@ -1,6 +1,6 @@
 {
     "input": {
-	"path": "/kat/data/tropomi/S3_co-nrti",
+	"path": "/data/tropomi/S3_co-nrti",
 	"filename": "S5P_NRTI_L2__CO_____{date}*.nc"
     },
     "variable": {
@@ -15,7 +15,7 @@
 	"lon_step": 0.25
     },
     "output": {
-	"path": "/kat/data/tropomi/merged_co-nrti",
+	"path": "/data/tropomi/merged_co-nrti",
 	"filename": "S5P_NRTI_L3__CO_____{date}.nc"
     }
 }
