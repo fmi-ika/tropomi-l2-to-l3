@@ -1,7 +1,9 @@
 {
     "input": {
-	"path": "/data/tropomi/S3_so2-nrti",
-	"filename": "S5P_NRTI_L2__SO2____{date}*.nc"
+	"day": {
+	    "path": "/data/tropomi/S3_so2-nrti",
+	    "filename": "S5P_NRTI_L2__SO2____{date}*.nc"
+	}
     },
     "variable": {
 	"harp_var_name": "SO2_column_number_density",
@@ -15,7 +17,9 @@
 	"lon_step": 0.25
     },
     "output": {
-	"path": "/data/tropomi/merged_so2-nrti",
-	"filename": "S5P_NRTI_L3__SO2____{date}.nc"
+	"day": {
+	    "path": "/data/tropomi/merged_so2-nrti",
+	    "filename": "S5P_NRTI_L3_SO2_dailycomposite_{date}.nc"
+	}
     }
 }

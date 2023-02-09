@@ -1,7 +1,9 @@
 {
     "input": {
-	"path": "/data/tropomi/S3_o3-nrti",
-	"filename": "S5P_NRTI_L2__O3_____{date}*.nc"
+	"day": {
+	    "path": "/data/tropomi/S3_o3-nrti",
+	    "filename": "S5P_NRTI_L2__O3_____{date}*.nc"
+	}
     },
     "variable": {
 	"harp_var_name": "O3_column_number_density",
@@ -15,7 +17,9 @@
 	"lon_step": 0.25
     },
     "output": {
-	"path": "/data/tropomi/merged_o3-nrti",
-	"filename": "S5P_NRTI_L3__O3_____{date}.nc"
+	"day": {
+	    "path": "/data/tropomi/merged_o3-nrti",
+	    "filename": "S5P_NRTI_L3_O3_dailycomposite_{date}.nc"
+	}
     }
 }

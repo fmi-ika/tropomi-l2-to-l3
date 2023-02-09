@@ -1,0 +1,33 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/S3_so2-offl",
+	    "filename": "S5P_OFFL_L2__SO2____{date}*.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/S3_so2-offl",
+	    "filename": "S5P_OFFL_L2_SO2_dailycomposite_{date}*.nc"
+	}
+    },
+    "variable": {
+	"harp_var_name": "SO2_column_number_density",
+	"unit": "DU",
+	"validity_min": 50,
+	"lat_min": -90,
+	"lat_max": 90,
+	"lat_step": 0.25,
+	"lon_min": -180,
+	"lon_max": 180,
+	"lon_step": 0.25
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_so2-offl",
+	    "filename": "S5P_OFFL_L3_SO2_dailycomposite_{date}.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_so2-offl",
+	    "filename": "S5P_OFFL_L3_SO2_monthlycomposite_{date}.nc"
+	}
+    }
+}
