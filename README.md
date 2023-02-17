@@ -18,7 +18,7 @@ Input parameters are:
 - `date`: date to plot
 
 ### Configurations
-Configurations for each variable are located in `/conf` directory. Configuration .json files are called `variable.json` (e.g. `no2-nrti.json`).
+Configurations for each variable are located in `/conf` directory. Configuration .json files are called `variable.json` (e.g. `no2-nrti.json`). Separate input and output configurations can be given for daily/monthly averaged data.
 
 #### Input configurations
 - `path`: path for input files
