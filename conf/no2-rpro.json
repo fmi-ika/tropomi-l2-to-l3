@@ -1,0 +1,33 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/S3_no2-offl",
+	    "filename": "S5P_RPRO_L2__NO2____{date}*.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/S3_no2-offl",
+	    "filename": "S5P_RPRO_L3_NO2_dailycomposite_{date}*.nc"
+	}
+    },
+    "variable": {
+	"harp_var_name": "tropospheric_NO2_column_number_density",
+	"unit": "Pmolec/cm2",
+	"validity_min": 75,
+	"lat_min": -90,
+	"lat_max": 90,
+	"lat_step": 0.05,
+	"lon_min": -180,
+	"lon_max": 180,
+	"lon_step": 0.05
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_RPRO_L3_NO2_dailycomposite_{date}.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_RPRO_L3_NO2_monthlycomposite_{date}.nc"
+	}
+    }
+}

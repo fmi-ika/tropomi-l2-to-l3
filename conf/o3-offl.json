@@ -15,10 +15,10 @@
 	"validity_min": 50,
 	"lat_min": -90,
 	"lat_max": 90,
-	"lat_step": 0.25,
+	"lat_step": 1.0,
 	"lon_min": -180,
 	"lon_max": 180,
-	"lon_step": 0.25
+	"lon_step": 1.0
     },
     "output": {
 	"day": {
