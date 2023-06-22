@@ -6,7 +6,7 @@
 	},
 	"month": {
 	    "path": "/data/tropomi/S3_no2-offl",
-	    "filename": "S5P_RPRO_L3_NO2_dailycomposite_{date}*.nc"
+	    "filename": "S5P_OFFL_L3_NO2_dailycomposite_{date}*.nc"
 	}
     },
     "variable": {
@@ -18,16 +18,17 @@
 	"lat_step": 0.05,
 	"lon_min": -180,
 	"lon_max": 180,
-	"lon_step": 0.05
+	"lon_step": 0.05,
+	"harp_options":	null
     },
     "output": {
 	"day": {
 	    "path": "/data/tropomi/merged_no2-offl",
-	    "filename": "S5P_RPRO_L3_NO2_dailycomposite_{date}.nc"
+	    "filename": "S5P_OFFL_L3_NO2_dailycomposite_{date}.nc"
 	},
 	"month": {
 	    "path": "/data/tropomi/merged_no2-offl",
-	    "filename": "S5P_RPRO_L3_NO2_monthlycomposite_{date}.nc"
+	    "filename": "S5P_OFFL_L3_NO2_monthlycomposite_{date}.nc"
 	}
     }
 }

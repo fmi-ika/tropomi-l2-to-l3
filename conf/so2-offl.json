@@ -18,7 +18,8 @@
 	"lat_step": 0.25,
 	"lon_min": -180,
 	"lon_max": 180,
-	"lon_step": 0.25
+	"lon_step": 0.25,
+	"harp_options":	null
     },
     "output": {
 	"day": {

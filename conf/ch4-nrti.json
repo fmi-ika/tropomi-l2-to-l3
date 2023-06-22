@@ -1,0 +1,26 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/S3_ch4-nrti",
+	    "filename": "S5P_NRTI_L2__CH4____{date}*.nc"
+	}
+    },
+    "variable": {
+	"harp_var_name": "CH4_column_volume_mixing_ratio_dry_air",
+	"unit": "ppbv",
+	"validity_min": 50,
+	"lat_min": -90,
+	"lat_max": 90,
+	"lat_step": 0.05,
+	"lon_min": -180,
+	"lon_max": 180,
+	"lon_step": 0.05,
+	"harp_options": null
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_ch4-nrti",
+	    "filename": "S5P_NRTI_L3_CH4_dailycomposite_{date}.nc"
+	}
+    }
+}

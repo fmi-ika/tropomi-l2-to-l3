@@ -86,12 +86,15 @@ def merge_and_regrid(conf, infiles, timeperiod, variable):
                 "derive(longitude float {longitude})"
             ])
 
-        reduce_operations = 'squash(time, (latitude, longitude, latitude_bounds, longitude_bounds));set("propagate_uncertainty", "uncorrelated");bin()'
+        reduce_operations = 'squash(time, (latitude, longitude, latitude_bounds, longitude_bounds));set("propagate_uncertainty", "correlated");bin()'
         post_operations = "exclude(weight, longitude_bounds, latitude_bounds)"
 
         logger.debug(f'Merging files {infiles} into one')
         try:
-            merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
+            if conf["variable"]["harp_options"]:
+                merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations, options=conf["variable"]["harp_options"])
+            else:
+                merged = harp.import_product(infiles, operations, reduce_operations = reduce_operations, post_operations = post_operations)
         except Exception as e:
             logger.error(f'Error while merging files with HARP')
             logger.error(e)

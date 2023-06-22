@@ -1,0 +1,34 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/S3_co-offl",
+	    "filename": "S5P_OFFL_L2__CO_____{date}*.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/S3_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_dailycomposite_{date}*.nc"
+	}
+    },
+    "variable": {
+	"harp_var_name": "CO_column_number_density",
+	"unit": "Emolec/cm2",
+	"validity_min": 50,
+	"lat_min": -90,
+	"lat_max": 90,
+	"lat_step": 0.25,
+	"lon_min": -180,
+	"lon_max": 180,
+	"lon_step": 0.25,
+	"harp_options": "co=corrected"
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_dailycomposite_{date}.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_monthlycomposite_{date}.nc"
+	}
+    }
+}
