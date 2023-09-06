@@ -71,7 +71,18 @@ def merge_and_regrid(conf, infiles, timeperiod, variable):
                 "derive(latitude float {latitude})",
                 "derive(longitude float {longitude})"
             ])
-
+        elif "so2" in variable:
+            operations = ";".join([
+                f'{conf["variable"]["harp_var_name"]}_validity>{conf["variable"]["validity_min"]}',
+                f'keep(latitude_bounds,longitude_bounds,datetime_start,datetime_length,{conf["variable"]["harp_var_name"]})',
+                f'derive({conf["variable"]["harp_var_name"]} float [{conf["variable"]["unit"]}])',
+                "derive(datetime_stop {time} [days since 2000-01-01])",
+                "derive(datetime_start [days since 2000-01-01])",
+                "exclude(datetime_length)",
+                bin_spatial_string,
+                "derive(latitude float {latitude})",
+                "derive(longitude float {longitude})"
+            ])
         else:            
             operations = ";".join([
                 f'{conf["variable"]["harp_var_name"]}_validity>{conf["variable"]["validity_min"]}',
