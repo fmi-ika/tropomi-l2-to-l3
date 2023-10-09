@@ -98,8 +98,9 @@ def merge_and_regrid(conf, infiles, timeperiod, variable):
             ])
 
         reduce_operations = 'squash(time, (latitude, longitude, latitude_bounds, longitude_bounds));set("propagate_uncertainty", "correlated");bin()'
-        post_operations = "exclude(weight, longitude_bounds, latitude_bounds)"
-
+        #post_operations = "exclude(weight, longitude_bounds, latitude_bounds)"
+        post_operations = "exclude(longitude_bounds, latitude_bounds)"
+        
         logger.debug(f'Merging files {infiles} into one')
         try:
             if conf["variable"]["harp_options"]:
@@ -110,8 +111,8 @@ def merge_and_regrid(conf, infiles, timeperiod, variable):
             logger.error(f'Error while merging files with HARP')
             logger.error(e)
         
-    elif timeperiod == "month":
-        logger.debug(f'Merging one month of data and using already merged l3 data as input.')
+    elif timeperiod == "month" or timeperiod == "year":
+        logger.debug(f'Merging one month or one year of data and using already merged l3 data as input.')
         
         post_operations = "squash(time, (latitude, longitude));bin()"
         

@@ -7,6 +7,10 @@
 	"month": {
 	    "path": "/data/tropomi/S3_o3-offl",
 	    "filename": "S5P_OFFL_L3_O3_dailycomposite_{date}*.nc"
+	},
+	"year": {
+	    "path": "/data/tropomi/S3_o3-offl",
+	    "filename": "S5P_OFFL_L3_O3_monthlycomposite_{date}*.nc"
 	}
     },
     "variable": {
@@ -29,6 +33,10 @@
 	"month": {
 	    "path": "/data/tropomi/merged_o3-offl",
 	    "filename": "S5P_OFFL_L3_O3_monthlycomposite_{date}.nc"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_o3-offl",
+	    "filename": "S5P_OFFL_L3_O3_yearlycomposite_{date}.nc"
 	}
     }
 }
