@@ -2,15 +2,15 @@
     "input": {
 	"day": {
 	    "path": "/data/tropomi/S3_so2-offl",
-	    "filename": "S5P_OFFL_L2__SO2____{date}*.nc"
+	    "filename": "S5P_PAL__L2__SO2CBR_{date}*.nc"
 	},
 	"month": {
 	    "path": "/data/tropomi/S3_so2-offl",
-	    "filename": "S5P_OFFL_L2_SO2_dailycomposite_{date}*.nc"
+	    "filename": "S5P_OFFL_L3_SO2_dailycomposite_{date}*.nc"
 	},
 	"year": {
 	    "path": "/data/tropomi/S3_so2-offl",
-	    "filename": "S5P_OFFL_L2_SO2_monthlycomposite_{date}*.nc"
+	    "filename": "S5P_OFFL_L3_SO2_monthlycomposite_{date}*.nc"
 	}
     },
     "variable": {

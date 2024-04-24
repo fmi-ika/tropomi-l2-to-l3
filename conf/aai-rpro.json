@@ -1,0 +1,42 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/S3_aai-offl",
+	    "filename": "S5P_RPRO_L2__AER_AI_{date}*.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/S3_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_dailycomposite_{date}*.nc"
+	},
+	"year": {
+	    "path": "/data/tropomi/S3_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_monthlycomposite_{date}*.nc"
+	}
+    },
+    "variable": {
+	"harp_var_name": "absorbing_aerosol_index",
+	"unit": "1",
+	"validity_min": 80,
+	"lat_min": -90,
+	"lat_max": 90,
+	"lat_step": 0.1,
+	"lon_min": -180,
+	"lon_max": 180,
+	"lon_step": 0.1,
+	"harp_options":	null
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_dailycomposite_{date}.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_monthlycomposite_{date}.nc"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_yearlycomposite_{date}.nc"
+	}
+    }
+}
