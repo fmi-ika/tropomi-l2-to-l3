@@ -1,0 +1,42 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/S3_aai-offl",
+	    "filename": "S5P_OFFL_L2__AER_AI_{date}*.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/S3_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_dailycomposite_ukraine_{date}*.nc"
+	},
+	"year": {
+	    "path": "/data/tropomi/S3_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_monthlycomposite_ukraine_{date}*.nc"
+	}
+    },
+    "variable": {
+	"harp_var_name": "absorbing_aerosol_index",
+	"unit": "1",
+	"validity_min": 80,
+	"lat_min": 40,
+	"lat_max": 55,
+	"lat_step": 0.01,
+	"lon_min": 20,
+	"lon_max": 45,
+	"lon_step": 0.01,
+	"harp_options":	null
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_dailycomposite_ukraine_{date}.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_monthlycomposite_ukraine_{date}.nc"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_yearlycomposite_ukraine_{date}.nc"
+	}
+    }
+}

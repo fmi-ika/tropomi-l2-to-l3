@@ -1,0 +1,42 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/S3_co-offl",
+	    "filename": "S5P_RPRO_L2__CO_____{date}*.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/S3_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_dailycomposite_ukraine_{date}*.nc"
+	},
+	"year": {
+	    "path": "/data/tropomi/S3_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_monthlycomposite_ukraine_{date}*.nc"
+	}
+    },
+    "variable": {
+	"harp_var_name": "CO_column_number_density",
+	"unit": "Emolec/cm2",
+	"validity_min": 50,
+	"lat_min": 40,
+	"lat_max": 55,
+	"lat_step": 0.01,
+	"lon_min": 20,
+	"lon_max": 45,
+	"lon_step": 0.01,
+	"harp_options": "co=corrected"
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_dailycomposite_ukraine_{date}.nc"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_monthlycomposite_ukraine_{date}.nc"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_yearlycomposite_ukraine_{date}.nc"
+	}
+    }
+}
